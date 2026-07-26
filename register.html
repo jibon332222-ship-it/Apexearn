@@ -50,6 +50,7 @@
     <script>
         document.getElementById('regForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const name = document.getElementById('name').value;
             const identifier = document.getElementById('identifier').value;
             const password = document.getElementById('password').value;
@@ -60,10 +61,14 @@
                 return;
             }
 
-            // ডেটা ব্রাউজারে সেভ করা হচ্ছে
-            const userData = { name, identifier, password };
-            localStorage.setItem('apexUser', JSON.stringify(userData));
+            const userData = {
+                name: name,
+                identifier: identifier,
+                password: password
+            };
 
+            localStorage.setItem('apexUser', JSON.stringify(userData));
+            
             alert('রেজিস্ট্রেশন সফল হয়েছে! এখন লগইন করুন।');
             window.location.href = 'login.html';
         });
