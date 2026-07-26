@@ -42,22 +42,23 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const inputId = document.getElementById('loginIdentifier').value;
             const inputPass = document.getElementById('loginPassword').value;
 
-            // সেভ করা ডাটা চেক করা
-            const savedUser = JSON.parse(localStorage.getItem('apexUser'));
-
-            if (!savedUser) {
+            const savedUserJSON = localStorage.getItem('apexUser');
+            if (!savedUserJSON) {
                 alert('কোনো অ্যাকাউন্ট পাওয়া যায়নি! আগে রেজিস্ট্রেশন করুন।');
                 window.location.href = 'register.html';
                 return;
             }
 
+            const savedUser = JSON.parse(savedUserJSON);
+
             if (savedUser.identifier === inputId && savedUser.password === inputPass) {
                 alert('লগইন সফল হয়েছে! 🎉');
                 localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = 'index.html'; // হোমপেজে চলে যাবে
+                window.location.href = 'index.html';
             } else {
                 alert('ভুল নম্বর/জিমেইল অথবা পাসওয়ার্ড!');
             }
