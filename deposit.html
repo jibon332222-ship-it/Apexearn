@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Earn - Deposit</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent-green: #00ff88;
+            --accent-orange: #f97316;
+            --text-white: #ffffff;
+            --text-gray: #a1a1aa;
+            --border-color: #1e293b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-white); padding: 15px; padding-bottom: 90px; }
+
+        /* হেডার টাইটেল উইথ নিওন গ্লো */
+        .header-title { 
+            font-size: 24px; 
+            font-weight: 800; 
+            color: var(--accent-green); 
+            text-align: center; 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6), 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .notice-box {
+            background: rgba(249, 115, 22, 0.12);
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            color: #ff9d42;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(249, 115, 22, 0.3);
+        }
+
+        /* অফিসিয়াল নম্বর কার্ড এবং গ্লো */
+        .number-card {
+            background: #0f172a;
+            border: 1px dashed var(--accent-green);
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            box-shadow: 0 0 12px rgba(0, 255, 136, 0.15);
+        }
+        .number-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .number-label {
+            font-size: 11px;
+            color: var(--text-gray);
+        }
+        .official-num {
+            font-size: 17px;
+            font-weight: bold;
+            color: var(--accent-green);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+        }
+        .copy-btn {
+            background: var(--accent-green);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+        .copy-btn:active { transform: scale(0.95); }
+
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; color: var(--text-white); margin-bottom: 6px; font-weight: 600; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
+        .input-group input, .input-group select { width: 100%; padding: 12px; background: #0b0f19; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; font-size: 14px; }
+        .input-group input:focus, .input-group select:focus { border-color: var(--accent-green); box-shadow: 0 0 8px rgba(0, 255, 136, 0.3); }
+
+        /* গ্লোয়িং সাবমিট বাটন */
+        .submit-btn { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--accent-green); 
+            border: none; 
+            border-radius: 12px; 
+            color: #000; 
+            font-weight: bold; 
+            font-size: 16px; 
+            cursor: pointer; 
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5), 0 0 25px rgba(0, 255, 136, 0.2); 
+            margin-top: 10px; 
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+        }
+
+        /* Bottom Nav */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+        .nav-item { color: var(--text-gray); text-decoration: none; text-align: center; font-size: 11px; }
+        .nav-item.active { color: var(--accent-green); }
+        .nav-item div { font-size: 18px; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">টাকা ডিপোজিট করুন</div>
+
+    <div class="form-card">
+        <div class="notice-box">
+            💡 প্রথমে আমাদের অফিসিয়াল নম্বরে ক্যাশআউট বা সেন্ড মানি করে নিচের তথ্যগুলো পূরণ করুন।
+        </div>
+
+        <!-- অফিশিয়াল নম্বর ও কপি সেকশন -->
+        <div class="number-card">
+            <div class="number-info">
+                <span class="number-label" id="methodLabel">অফিসিয়াল বিকাশ নম্বর:</span>
+                <span class="official-num" id="officialNum">01305366289</span>
+            </div>
+            <button type="button" class="copy-btn" id="copyBtn" onclick="copyOfficialNumber()">Copy</button>
+        </div>
+
+        <form onsubmit="handleDepositSubmit(event)">
+            <div class="input-group">
+                <label>পেমেন্ট মেথড নির্বাচন করুন</label>
+                <select id="depositMethod" onchange="updateOfficialNumber()" required>
+                    <option value="bKash">bKash (বিকাশ)</option>
+                    <option value="Nagad">Nagad (নগদ)</option>
+                    <option value="Rocket">Rocket (রকেট)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>ট্রানজেকশন আইডি (TrxID)</label>
+                <input type="text" id="depositTrxId" placeholder="যেমন: 9N7K..." required>
+            </div>
+
+            <div class="input-group">
+                <label>টাকার পরিমাণ (৳)</label>
+                <input type="number" id="depositAmount" placeholder="সর্বনিম্ন ১০০ টাকা" min="100" required>
+            </div>
+
+            <button type="submit" class="submit-btn">ডিপোজিট রিকোয়েস্ট পাঠান 🚀</button>
+        </form>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><div>🏠</div>হোম</a>
+        <a href="products.html" class="nav-item"><div>📦</div>প্যাকেজ</a>
+        <a href="team.html" class="nav-item"><div>👥</div>টিম</a>
+        <a href="history.html" class="nav-item"><div>📜</div>হিস্ট্রি</a>
+        <a href="profile.html" class="nav-item"><div>👤</div>প্রোফাইল</a>
+    </div>
+
+    <script>
+        // মেথড পরিবর্তন করলে নম্বর পরিবর্তন
+        function updateOfficialNumber() {
+            const method = document.getElementById('depositMethod').value;
+            const label = document.getElementById('methodLabel');
+            const num = document.getElementById('officialNum');
+
+            if (method === 'bKash') {
+                label.innerText = 'অফিসিয়াল বিকাশ নম্বর:';
+                num.innerText = '01305366289';
+            } else if (method === 'Nagad') {
+                label.innerText = 'অফিসিয়াল নগদ নম্বর:';
+                num.innerText = '01305366289';
+            } else if (method === 'Rocket') {
+                label.innerText = 'অফিসিয়াল রকেট নম্বর:';
+                num.innerText = '01305366289';
+            }
+        }
+
+        // নম্বর কপি করার ফাংশন
+        function copyOfficialNumber() {
+            const numText = document.getElementById('officialNum').innerText;
+            navigator.clipboard.writeText(numText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "Copied! ✔";
+                btn.style.background = "#ffffff";
+
+                alert("নম্বর কপি করা হয়েছে: " + numText);
+
+                setTimeout(() => {
+                    btn.innerText = "Copy";
+                    btn.style.background = "var(--accent-green)";
+                }, 2000);
+            }).catch(() => {
+                alert("নম্বরটি ম্যানুয়ালি কপি করুন: " + numText);
+            });
+        }
+
+        // ফর্ম সাবমিট হ্যান্ডলার
+        function handleDepositSubmit(event) {
+            event.preventDefault();
+
+            const method = document.getElementById('depositMethod').value;
+            const trxId = document.getElementById('depositTrxId').value.trim();
+            const amount = Number(document.getElementById('depositAmount').value);
+            const userPhone = localStorage.getItem('userPhone') || localStorage.getItem('userName') || 'অজানা নম্বর';
+
+            const botToken = '8637856947:AAHpVpqrgciFvzYUbODuSZo4Ym1K0Y0I7qo';
+            const chatId = '7222092336';
+
+            const message = `📥 নতুন ডিপোজিট রিকোয়েস্ট! 📥\n\n👤 ইউজার: ${userPhone}\n💳 মেথড: ${method}\n🔑 TrxID: ${trxId}\n💰 পরিমাণ: ৳${amount}\n⏰ সময়: ${new Date().toLocaleString('bn-BD')}`;
+
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            // টেলিগ্রাম বটে নোটিফিকেশন পাঠানো
+            fetch(telegramUrl, { method: 'GET', mode: 'no-cors' })
+            .catch(() => {});
+
+            // হিস্ট্রিতে প্রসেসিং হিসেবে সেভ করা
+            let historyData = JSON.parse(localStorage.getItem('userHistory')) || [];
+            
+            historyData.unshift({
+                id: Date.now(),
+                type: 'deposit',
+                title: `ডিপোজিট (${method})`,
+                trxId: trxId,
+                amount: amount,
+                status: 'Processing',
+                date: new Date().toLocaleString('bn-BD')
+            });
+            
+            localStorage.setItem('userHistory', JSON.stringify(historyData));
+
+            alert('আপনার ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে!');
+            window.location.href = 'history.html';
+        }
+    </script>
+</body>
+</html>

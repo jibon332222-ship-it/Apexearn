@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Earn - Team & Referral</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent-green: #00ff88;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --border-color: #1e293b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            padding-bottom: 80px;
+        }
+        .header {
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-green);
+            border-bottom: 1px solid var(--border-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+        .container {
+            padding: 15px;
+        }
+        .invite-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
+        }
+        .invite-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: var(--accent-green);
+        }
+        .notice-text {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-green);
+            text-align: left;
+        }
+        .ref-box {
+            background: #0b0f19;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+        .copy-ref-btn {
+            background: var(--accent-green);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            width: 100%;
+            font-size: 14px;
+        }
+        .stats-grid {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-box h4 {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+        }
+        .stat-box p {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent-green);
+        }
+        .section-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .member-list {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 13px;
+        }
+        /* Bottom Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 11px;
+        }
+        .nav-item.active {
+            color: var(--accent-green);
+        }
+        .nav-item div {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">My Team & Referral</div>
+
+    <div class="container">
+        <!-- Invite Card & Rules -->
+        <div class="invite-card">
+            <h3>বন্ধুদের ইনভাইট করুন এবং ১৫% কমিশন পান!</h3>
+            
+            <div class="notice-text">
+                📌 <b>রেফারেল নিয়মাবলি:</b><br>
+                ১. আপনার রেফারেল লিংক দিয়ে কেউ অ্যাকাউন্ট খুললে এবং সে ইনকাম করলে আপনি তার থেকে <b>১৫% কমিশন</b> পাবেন।<br>
+                ২. তবে শর্ত হলো: যাকে রেফার করবেন তিনি যদি অ্যাকাউন্টে <b>ডিপোজিট না করেন</b>, তবে আপনি কোনো কমিশন পাবেন না। ডিপোজিট করার পরেই কমিশন কার্যকর হবে।
+            </div>
+
+            <div class="ref-box" id="refLinkText">https://apexearn.com/register?ref=APEX7890</div>
+            <button class="copy-ref-btn" onclick="copyRefLink()">ইনভাইট লিংক কপি করুন</button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h4>মোট টিম মেম্বার</h4>
+                <p>0 জন</p>
+            </div>
+            <div class="stat-box">
+                <h4>মোট কমিশন</h4>
+                <p>৳0</p>
+            </div>
+        </div>
+
+        <div class="section-title">টিম মেম্বার লিস্ট</div>
+        <div class="member-list">
+            আপনার টিমে এখনো কোনোভ্যালিড মেম্বার নেই। (যিনি ডিপোজিট করবেন তার নাম এখানে শো করবে)
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item">
+            <div>🏠</div>Home
+        </a>
+        <a href="products.html" class="nav-item">
+            <div>📦</div>Products
+        </a>
+        <a href="team.html" class="nav-item active">
+            <div>👥</div>Team
+        </a>
+        <a href="history.html" class="nav-item">
+            <div>📜</div>History
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div>👤</div>Profile
+        </a>
+    </div>
+
+    <script>
+        function copyRefLink() {
+            let link = document.getElementById('refLinkText').innerText;
+            navigator.clipboard.writeText(link);
+            alert("রেফারেল লিংক সফলভাবে কপি করা হয়েছে!");
+        }
+    </script>
+</body>
+</html>

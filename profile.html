@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Earn - Profile</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent-green: #00ff88;
+            --accent-red: #ff3366;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --border-color: #1e293b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-white); padding: 15px; padding-bottom: 90px; }
+        
+        .header-title { font-size: 22px; font-weight: bold; color: var(--accent-green); text-align: center; margin-bottom: 20px; }
+
+        /* Profile Card */
+        .profile-card {
+            background: linear-gradient(145deg, #131b2e, #0f1626);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 22px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .user-avatar { width: 75px; height: 75px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px; border: 2px solid var(--accent-green); box-shadow: 0 0 15px rgba(0,255,136,0.2); }
+        .user-name { font-size: 18px; font-weight: bold; color: var(--text-white); margin-bottom: 2px; }
+        .user-phone { font-size: 13px; color: var(--accent-blue); margin-bottom: 6px; }
+        .user-balance-label { font-size: 12px; color: var(--text-gray); }
+        .user-balance { font-size: 28px; font-weight: bold; color: var(--accent-green); margin-top: 2px; }
+
+        .action-btns { display: flex; gap: 12px; margin-top: 18px; }
+        .btn { flex: 1; padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 15px; }
+        .btn-deposit { background: var(--accent-green); color: #000; box-shadow: 0 4px 12px rgba(0,255,136,0.3); }
+        .btn-withdraw { background: var(--accent-red); color: #fff; box-shadow: 0 4px 12px rgba(255,51,102,0.3); }
+
+        /* Big Menu Cards Section */
+        .section-title { font-size: 15px; color: var(--text-gray); margin-bottom: 12px; font-weight: bold; }
+        .big-menu-container { display: flex; flex-direction: column; gap: 14px; }
+
+        .big-menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-white);
+            transition: transform 0.2s, border-color 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .big-menu-card:active { transform: scale(0.98); }
+
+        .menu-left { display: flex; align-items: center; gap: 16px; }
+        .menu-icon-box { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+
+        .icon-edit { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); border: 1px solid rgba(249, 115, 22, 0.3); }
+        .icon-history { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+        .icon-team { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3); }
+        .icon-logout { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 51, 102, 0.3); }
+
+        .menu-text h4 { font-size: 16px; font-weight: bold; margin-bottom: 3px; }
+        .menu-text p { font-size: 12px; color: var(--text-gray); }
+        .arrow-icon { font-size: 18px; color: var(--text-gray); }
+
+        /* FULL SCREEN INNER EDIT PAGE */
+        .full-screen-page {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: var(--bg-color);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .inner-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .back-btn { font-size: 22px; color: var(--accent-green); cursor: pointer; background: var(--card-bg); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
+        .inner-title { font-size: 18px; font-weight: bold; color: var(--text-white); }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; color: var(--text-gray); margin-bottom: 8px; font-weight: 500; }
+        .input-group input, .input-group select { width: 100%; padding: 14px; background: #0b0f19; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; font-size: 14px; }
+        .input-group input:focus { border-color: var(--accent-green); }
+
+        .save-btn { width: 100%; padding: 15px; background: var(--accent-green); border: none; border-radius: 12px; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,255,136,0.3); margin-top: 10px; }
+
+        /* Withdraw Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            padding: 15px;
+        }
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-green);
+            border-radius: 18px;
+            padding: 22px;
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .close-btn { position: absolute; top: 12px; right: 15px; color: var(--text-gray); font-size: 22px; cursor: pointer; }
+        .modal-title { color: var(--accent-green); font-size: 18px; margin-bottom: 15px; font-weight: bold; text-align: center; }
+
+        /* Bottom Nav */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+        .nav-item { color: var(--text-gray); text-decoration: none; text-align: center; font-size: 11px; }
+        .nav-item.active { color: var(--accent-green); }
+        .nav-item div { font-size: 18px; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">আমার প্রোফাইল</div>
+
+    <!-- Main Profile Card -->
+    <div class="profile-card">
+        <div class="user-avatar">👤</div>
+        <div class="user-name" id="userNameDisplay">জীবন খান</div>
+        <div class="user-phone" id="userPhoneDisplay">017XXXXXXXX</div>
+        <div class="user-balance-label">বর্তমান ব্যালেন্স</div>
+        <div class="user-balance" id="profileBalance">৳০</div>
+
+        <div class="action-btns">
+            <a href="deposit.html" class="btn btn-deposit">ডিপোজিট</a>
+            <button class="btn btn-withdraw" onclick="openWithdrawModal()">উইথড্র</button>
+        </div>
+    </div>
+
+    <!-- Big Menu Cards Section -->
+    <div class="section-title">মেনু অপশনসমূহ</div>
+
+    <div class="big-menu-container">
+        
+        <!-- Edit Profile -->
+        <div class="big-menu-card" onclick="openEditProfilePage()">
+            <div class="menu-left">
+                <div class="menu-icon-box icon-edit">✏️</div>
+                <div class="menu-text">
+                    <h4>প্রোফাইল এডিট</h4>
+                    <p>নাম এবং সিকিউর পাসওয়ার্ড পরিবর্তন করুন</p>
+                </div>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </div>
+
+        <!-- Transaction History -->
+        <a href="history.html" class="big-menu-card">
+            <div class="menu-left">
+                <div class="menu-icon-box icon-history">📜</div>
+                <div class="menu-text">
+                    <h4>লেনদেনের ইতিহাস</h4>
+                    <p>আপনার সমস্ত লেনদেনের হিস্ট্রি দেখুন</p>
+                </div>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </a>
+
+        <!-- My Referral Team -->
+        <a href="team.html" class="big-menu-card">
+            <div class="menu-left">
+                <div class="menu-icon-box icon-team">👥</div>
+                <div class="menu-text">
+                    <h4>রেফারেল টিম</h4>
+                    <p>রেফারেল মেম্বার এবং কমিশন চেক করুন</p>
+                </div>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </a>
+
+        <!-- Logout -->
+        <div class="big-menu-card" onclick="logout()">
+            <div class="menu-left">
+                <div class="menu-icon-box icon-logout">🚪</div>
+                <div class="menu-text">
+                    <h4>লগআউট</h4>
+                    <p>আপনার অ্যাকাউন্ট থেকে বের হয়ে যান</p>
+                </div>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </div>
+
+    </div>
+
+    <!-- FULL SCREEN EDIT PROFILE PAGE -->
+    <div class="full-screen-page" id="editProfilePage">
+        <div class="inner-header">
+            <div class="back-btn" onclick="closeEditProfilePage()">←</div>
+            <div class="inner-title">প্রোফাইল এডিট ✏️</div>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div class="form-card">
+            <form onsubmit="handleProfileUpdate(event)">
+                <div class="input-group">
+                    <label>আপনার নাম</label>
+                    <input type="text" id="editName" placeholder="আপনার নাম লিখুন" required>
+                </div>
+
+                <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
+
+                <div style="font-size: 14px; font-weight: bold; color: var(--accent-orange); margin-bottom: 12px;">
+                    🔑 পাসওয়ার্ড পরিবর্তন করুন:
+                </div>
+
+                <div class="input-group">
+                    <label>পুরাতন পাসওয়ার্ড</label>
+                    <input type="password" id="oldPassword" placeholder="বর্তমান পাসওয়ার্ড দিন">
+                </div>
+
+                <div class="input-group">
+                    <label>নতুন পাসওয়ার্ড</label>
+                    <input type="password" id="newPassword" placeholder="নতুন পাসওয়ার্ড দিন">
+                </div>
+
+                <button type="submit" class="save-btn">পরিবর্তন সেভ করুন 💾</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal Popup -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal-card">
+            <span class="close-btn" onclick="closeWithdrawModal()">&times;</span>
+            <div class="modal-title">টাকা উইথড্র করুন 💸</div>
+            
+            <form onsubmit="handleWithdrawSubmit(event)">
+                <div class="input-group">
+                    <label>পেমেন্ট মেথড নির্বাচন করুন</label>
+                    <select id="withdrawMethod" required>
+                        <option value="bKash">bKash (বিকাশ)</option>
+                        <option value="Nagad">Nagad (নগদ)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>আপনার পেমেন্ট নম্বর</label>
+                    <input type="text" id="withdrawPhone" placeholder="017XXXXXXXX" pattern="[0-9]{11}" required>
+                </div>
+
+                <div class="input-group">
+                    <label>টাকার পরিমাণ (৳)</label>
+                    <input type="number" id="withdrawAmount" placeholder="সর্বনিম্ন ১০০ টাকা" min="100" required>
+                </div>
+
+                <button type="submit" class="save-btn">রিকোয়েস্ট পাঠান 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><div>🏠</div>হোম</a>
+        <a href="products.html" class="nav-item"><div>📦</div>প্যাকেজ</a>
+        <a href="team.html" class="nav-item"><div>👥</div>টিম</a>
+        <a href="history.html" class="nav-item"><div>📜</div>হিস্ট্রি</a>
+        <a href="profile.html" class="nav-item active"><div>👤</div>প্রোফাইল</a>
+    </div>
+
+    <script>
+        function loadProfileData() {
+            const currentBalance = localStorage.getItem('userBalance') || '0';
+            const userPhone = localStorage.getItem('userName') || '017XXXXXXXX';
+            const userFullName = localStorage.getItem('userFullName') || 'জীবন খান';
+
+            document.getElementById('profileBalance').innerText = '৳' + currentBalance;
+            document.getElementById('userPhoneDisplay').innerText = userPhone;
+            document.getElementById('userNameDisplay').innerText = userFullName;
+            
+            document.getElementById('withdrawPhone').value = userPhone !== '017XXXXXXXX' ? userPhone : '';
+            document.getElementById('editName').value = userFullName;
+        }
+
+        function openEditProfilePage() {
+            document.getElementById('editProfilePage').style.display = 'block';
+        }
+
+        function closeEditProfilePage() {
+            document.getElementById('editProfilePage').style.display = 'none';
+        }
+
+        function handleProfileUpdate(event) {
+            event.preventDefault();
+            const newName = document.getElementById('editName').value.trim();
+            const oldPassInput = document.getElementById('oldPassword').value.trim();
+            const newPassInput = document.getElementById('newPassword').value.trim();
+
+            const savedPassword = localStorage.getItem('userPassword') || '123456';
+
+            if (newName) {
+                localStorage.setItem('userFullName', newName);
+            }
+
+            if (oldPassInput || newPassInput) {
+                if (!oldPassInput) {
+                    alert('পাসওয়ার্ড পরিবর্তন করতে বর্তমান পাসওয়ার্ডটি দিন!');
+                    return;
+                }
+
+                if (oldPassInput !== savedPassword) {
+                    alert('ভুল পুরাতন পাসওয়ার্ড!');
+                    return;
+                }
+
+                if (!newPassInput) {
+                    alert('নতুন পাসওয়ার্ডের ঘরটি পূরণ করুন!');
+                    return;
+                }
+
+                localStorage.setItem('userPassword', newPassInput);
+                alert('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+            } else {
+                alert('প্রোফাইল নাম সফলভাবে আপডেট করা হয়েছে!');
+            }
+
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            closeEditProfilePage();
+            loadProfileData();
+        }
+
+        function openWithdrawModal() {
+            document.getElementById('withdrawModal').style.display = 'flex';
+        }
+
+        function closeWithdrawModal() {
+            document.getElementById('withdrawModal').style.display = 'none';
+        }
+
+        function handleWithdrawSubmit(event) {
+            event.preventDefault();
+
+            // --- সময় লক (সন্ধ্যা ৬:০০ টা থেকে সকাল ৯:০০ টা পর্যন্ত বন্ধ) ---
+            const currentHour = new Date().getHours();
+            if (currentHour >= 18 || currentHour < 9) {
+                alert('⚠️ দুঃখিত! সন্ধ্যা ৬:০০ টা থেকে সকাল ৯:০০ টা পর্যন্ত উইথড্র সার্ভিস বন্ধ থাকে। অনুগ্রহ করে সকাল ৯:০০ টার পর চেষ্টা করুন।');
+                return;
+            }
+
+            const method = document.getElementById('withdrawMethod').value;
+            const phone = document.getElementById('withdrawPhone').value.trim();
+            const amount = Number(document.getElementById('withdrawAmount').value);
+            let currentBalance = Number(localStorage.getItem('userBalance')) || 0;
+
+            if (amount > currentBalance) {
+                alert('আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!');
+                return;
+            }
+
+            const botToken = '8637856947:AAHpVpqrgciFvzYUbODuSZo4Ym1K0Y0I7qo';
+            const chatId = '7222092336';
+
+            const message = `🚨 নতুন উইথড্র রিকোয়েস্ট! 🚨\n\n📱 কাস্টমার নম্বর: ${phone}\n💳 মেথড: ${method}\n💰 পরিমাণ: ৳${amount}\n⏰ সময়: ${new Date().toLocaleString('bn-BD')}`;
+
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            // টেলিগ্রাম বটে রিকোয়েস্ট পাঠানো
+            fetch(telegramUrl, { method: 'GET', mode: 'no-cors' })
+            .then(() => {
+                processWithdraw(method, phone, amount, currentBalance);
+            })
+            .catch(() => {
+                processWithdraw(method, phone, amount, currentBalance);
+            });
+        }
+
+        function processWithdraw(method, phone, amount, currentBalance) {
+            alert('আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! বর্তমানে এটি প্রসেসিং (Processing) অবস্থায় রয়েছে।');
+
+            currentBalance -= amount;
+            localStorage.setItem('userBalance', currentBalance);
+
+            let historyData = JSON.parse(localStorage.getItem('userHistory')) || [];
+            
+            historyData.unshift({
+                id: Date.now(),
+                type: 'withdraw',
+                title: `উইথড্র (${method})`,
+                trxId: phone,
+                amount: amount,
+                status: 'Processing',
+                date: new Date().toLocaleString('bn-BD')
+            });
+            
+            localStorage.setItem('userHistory', JSON.stringify(historyData));
+
+            closeWithdrawModal();
+            loadProfileData();
+        }
+
+        function logout() {
+            localStorage.clear();
+            alert('সফলভাবে লগআউট করা হয়েছে!');
+            window.location.href = 'index.html';
+        }
+
+        loadProfileData();
+    </script>
+</body>
+</html>
