@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+    <script>
+        // ইউজার লগইন করা না থাকলে সরাসরি লগইন পেজে পাঠিয়ে দেবে
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apex Earn - Home</title>
