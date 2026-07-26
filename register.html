@@ -1,139 +1,73 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Earn - Register</title>
+    <title>Register - Apexearn</title>
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: #131b2e;
-            --accent-green: #00ff88;
-            --text-white: #ffffff;
-            --text-gray: #94a3b8;
-            --border-color: #1e293b;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-white); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .auth-container {
-            width: 100%;
-            max-width: 420px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);
-        }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h2 { font-size: 24px; color: var(--accent-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
-        .header p { font-size: 13px; color: var(--text-gray); margin-top: 5px; }
-        .input-group { margin-bottom: 18px; }
-        .input-group label { font-size: 13px; color: var(--text-gray); display: block; margin-bottom: 6px; }
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            font-size: 15px;
-            background: #0b0f19;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            outline: none;
-            color: var(--text-white);
-        }
-        .input-group input:focus { border-color: var(--accent-green); box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
-        .ref-notice {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px dashed var(--accent-green);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: var(--accent-green);
-            margin-bottom: 15px;
-            text-align: center;
-            display: none;
-        }
-        .auth-btn {
-            width: 100%;
-            background: var(--accent-green);
-            color: #000;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-            margin-top: 10px;
-        }
-        .auth-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-gray); }
-        .auth-link a { color: var(--accent-green); text-decoration: none; font-weight: bold; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { background: #1e293b; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        h2 { text-align: center; margin-bottom: 24px; color: #38bdf8; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-size: 14px; color: #94a3b8; }
+        input { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 15px; }
+        input:focus { outline: none; border-color: #38bdf8; }
+        .btn { width: 100%; padding: 12px; background: #38bdf8; border: none; border-radius: 6px; color: #0f172a; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { background: #0ea5e9; }
+        .footer-text { text-align: center; margin-top: 16px; font-size: 14px; color: #94a3b8; }
+        .footer-text a { color: #38bdf8; text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="auth-container">
-    <div class="header">
-        <h2>Apex Earn</h2>
-        <p>নতুন অ্যাকাউন্ট তৈরি করুন</p>
+    <div class="card">
+        <h2>Create Account</h2>
+        <form id="regForm">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="name" required placeholder="আপনার নাম লিখুন">
+            </div>
+            <div class="input-group">
+                <label>Mobile Number or Gmail</label>
+                <input type="text" id="identifier" required placeholder="নম্বর অথবা জিমেইল দিন">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="********">
+            </div>
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" required placeholder="********">
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <div class="footer-text">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
     </div>
 
-    <div id="refNoticeBox" class="ref-notice">
-        ✨ আপনি রেফারেল লিংকের মাধ্যমে এসেছেন!
-    </div>
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const identifier = document.getElementById('identifier').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
 
-    <div class="input-group">
-        <label>আপনার নাম:</label>
-        <input type="text" id="regName" placeholder="পূর্ণ নাম লিখুন">
-    </div>
-    <div class="input-group">
-        <label>মোবাইল নম্বর:</label>
-        <input type="text" id="regPhone" placeholder="01XXXXXXXXX">
-    </div>
-    <div class="input-group">
-        <label>পাসওয়ার্ড:</label>
-        <input type="password" id="regPass" placeholder="কমপক্ষে ৬ ডিজিটের পাসওয়ার্ড">
-    </div>
+            if (password !== confirmPassword) {
+                alert('দুঃখিত! পাসওয়ার্ড দুটি একরকম হয়নি।');
+                return;
+            }
 
-    <button class="auth-btn" onclick="registerUser()">REGISTER</button>
+            // ডেটা ব্রাউজারে সেভ করা হচ্ছে
+            const userData = { name, identifier, password };
+            localStorage.setItem('apexUser', JSON.stringify(userData));
 
-    <div class="auth-link">
-        ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a>
-    </div>
-</div>
-
-<script>
-    // অটো রেফারেল ডিটেক্ট করার কোড
-    const urlParams = new URLSearchParams(window.location.search);
-    const refCode = urlParams.get('ref');
-
-    if (refCode) {
-        document.getElementById('refNoticeBox').style.display = 'block';
-        localStorage.setItem('referredBy', refCode);
-    }
-
-    function registerUser() {
-        let name = document.getElementById('regName').value.trim();
-        let phone = document.getElementById('regPhone').value.trim();
-        let pass = document.getElementById('regPass').value.trim();
-
-        if(!name || !phone || !pass) {
-            alert("দয়া করে সব ফিল্ড পূরণ করুন!");
-            return;
-        }
-
-        // লোকাল স্টোরেজে ইউজার ডাটা সেভ করা
-        localStorage.setItem('userName', name);
-        localStorage.setItem('userPhone', phone);
-        localStorage.setItem('userPass', pass);
-        localStorage.setItem('isLoggedIn', 'true');
-        
-        if(!localStorage.getItem('userBalance')) {
-            localStorage.setItem('userBalance', '1550');
-        }
-
-        alert("রেজিস্ট্রেশন সফল হয়েছে!");
-        window.location.href = "index.html"; // সরাসরি হোমপেজে নিয়ে যাবে
-    }
-</script>
+            alert('রেজিস্ট্রেশন সফল হয়েছে! এখন লগইন করুন।');
+            window.location.href = 'login.html';
+        });
+    </script>
 
 </body>
 </html>
