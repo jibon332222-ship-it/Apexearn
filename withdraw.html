@@ -1,0 +1,27 @@
+function handleWithdrawSubmit(event) {
+    event.preventDefault();
+
+    // ইউজারের ফোন নম্বর বা আইডি লোকাল স্টোরেজ থেকে নেওয়া
+    let phone = localStorage.getItem('userPhone') || localStorage.getItem('loggedUserPhone') || '017XXXXXXXX'; 
+    let method = document.getElementById('withdrawMethod').value; // পেমেন্ট মেথড (বিকাশ/নগদ)
+    let account = document.getElementById('accountNumber').value; // যে নম্বরে টাকা নিবে
+    let amount = Number(document.getElementById('withdrawAmount').value); // উইথড্রর পরিমাণ
+
+    // ডাটাবেজ লোড করা (যা অ্যাডমিন প্যানেল ব্যবহার করে)
+    let db = JSON.parse(localStorage.getItem('apexDatabase')) || { users: {}, pendingWithdraws: [], notice: "" };
+
+    // পেন্ডিং লিস্টে রিকোয়েস্ট পাঠানো
+    db.pendingWithdraws.push({
+        phone: phone,
+        method: method,
+        account: account,
+        amount: amount,
+        date: new Date().toLocaleString('bn-BD')
+    });
+
+    // আপডেট ডাটা সেভ করা
+    localStorage.setItem('apexDatabase', JSON.stringify(db));
+
+    alert("উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
+    window.location.href = 'history.html';
+}

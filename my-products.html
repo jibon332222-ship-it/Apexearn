@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Earn - My Products</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent-green: #00ff88;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --border-color: #1e293b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            padding-bottom: 80px;
+        }
+        .header {
+            padding: 20px 15px 10px 15px;
+        }
+        .header h2 {
+            font-size: 22px;
+            color: var(--accent-green);
+        }
+        .container {
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .active-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-green);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.15);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .plan-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-white);
+        }
+        .status-badge {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-green);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .card-info {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .income-val {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+        .expiry-box {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: #ffb703;
+            display: flex;
+            justify-content: space-between;
+        }
+        .no-product {
+            text-align: center;
+            color: var(--text-gray);
+            margin-top: 50px;
+            font-size: 15px;
+        }
+
+        /* Bottom Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 11px;
+        }
+        .nav-item.active {
+            color: var(--accent-green);
+        }
+        .nav-item div {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>My Invested Products</h2>
+    </div>
+
+    <div class="container" id="myProductsContainer">
+        <!-- ডায়নামিকালি কেনা প্যাকেজগুলো এখানে দেখাবে -->
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item">
+            <div>🏠</div>Home
+        </a>
+        <a href="products.html" class="nav-item">
+            <div>📦</div>Products
+        </a>
+        <a href="team.html" class="nav-item">
+            <div>👥</div>Team
+        </a>
+        <a href="history.html" class="nav-item">
+            <div>📜</div>History
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div>👤</div>Profile
+        </a>
+    </div>
+
+    <script>
+        function loadMyProducts() {
+            let container = document.getElementById('myProductsContainer');
+            let myPlans = JSON.parse(localStorage.getItem('myActivePlans') || '[]');
+
+            if (myPlans.length === 0) {
+                container.innerHTML = `<div class="no-product">আপনার কোনোভ্যাকেন্সি বা প্যাকেজ কেনা নেই!</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            myPlans.forEach((plan) => {
+                container.innerHTML += `
+                    <div class="active-card">
+                        <div class="card-top">
+                            <span class="plan-title">${plan.name}</span>
+                            <span class="status-badge">Running</span>
+                        </div>
+                        <div class="card-info">
+                            <span>মূল্য: ৳${plan.price}</span>
+                            <span>দৈনিক আয়: <span class="income-val">+৳${plan.dailyIncome}</span></span>
+                        </div>
+                        <div class="card-info">
+                            <span>কেনার তারিখ: ${plan.purchaseDate}</span>
+                        </div>
+                        <div class="expiry-box">
+                            <span>মেয়াদ: ১ বছর (৩৬৫ দিন)</span>
+                            <span>বাকি: ${plan.daysLeft} দিন</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // প্রতিদিন রাত ১২টায় বা পেজ ওপেন করলে অটো ব্যালেন্স যোগ হওয়ার লজিক
+        function checkDailyIncome() {
+            let lastClaimDate = localStorage.getItem('lastClaimDate');
+            let today = new Date().toDateString();
+
+            if (lastClaimDate !== today) {
+                let myPlans = JSON.parse(localStorage.getItem('myActivePlans') || '[]');
+                let totalDailyIncome = 0;
+
+                myPlans.forEach(plan => {
+                    totalDailyIncome += plan.dailyIncome;
+                });
+
+                if (totalDailyIncome > 0) {
+                    let currentBal = parseFloat(localStorage.getItem('userBalance') || '0');
+                    currentBal += totalDailyIncome;
+                    localStorage.setItem('userBalance', currentBal);
+
+                    let history = JSON.parse(localStorage.getItem('userHistory') || '[]');
+                    history.unshift({
+                        type: 'Daily Product Income',
+                        details: 'Automated Daily ROI Credited',
+                        amount: `+৳${totalDailyIncome}`,
+                        date: new Date().toLocaleString()
+                    });
+                    localStorage.setItem('userHistory', JSON.stringify(history));
+                    localStorage.setItem('lastClaimDate', today);
+                }
+            }
+        }
+
+        window.onload = function() {
+            checkDailyIncome();
+            loadMyProducts();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Earn - Payment Gateway</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent-green: #00ff88;
+            --accent-blue: #00bfff;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --border-color: #1e293b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .payment-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.15), inset 0 0 15px rgba(0, 255, 136, 0.05);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h2 {
+            font-size: 22px;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+        .amount-input-box {
+            margin-bottom: 25px;
+        }
+        .amount-input-box label {
+            font-size: 14px;
+            color: var(--text-gray);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .amount-input-box input {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            background: #0b0f19;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            color: var(--accent-green);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .amount-input-box input:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        .methods {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .method-card {
+            flex: 1;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #0b0f19;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .method-card.active {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+        .instruction-box {
+            color: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            display: none;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+        .instruction-box.active {
+            display: block;
+        }
+        .instruction-box h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 17px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .instruction-box p {
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .copy-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .trx-input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 12px;
+            color: #fff;
+            outline: none;
+        }
+        .trx-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        .pay-btn {
+            width: 100%;
+            background: var(--accent-green);
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            transition: 0.3s;
+        }
+        .pay-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            color: var(--accent-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <div class="header">
+        <h2>পেমেন্ট মাধ্যম সিলেক্ট করুন</h2>
+    </div>
+
+    <div class="amount-input-box">
+        <label>রিচার্জের পরিমাণ (টাকা):</label>
+        <input type="number" id="rechargeAmount" value="500" placeholder="টাকার পরিমাণ লিখুন">
+    </div>
+
+    <div class="methods">
+        <div class="method-card" id="bkashCard" style="color:#ff3366;" onclick="selectMethod('bKash', '#e2136e', 'bkashCard')">bKash</div>
+        <div class="method-card" id="nagadCard" style="color:#ff6600;" onclick="selectMethod('Nagad', '#ec1c24', 'nagadCard')">Nagad</div>
+    </div>
+
+    <div class="instruction-box" id="instructionBox">
+        <h3 id="methodTitle">নির্দেশিকা</h3>
+        <p>• আপনার <span id="methodNameText"></span> অ্যাপে যান।</p>
+        <p>• "Send Money" অপশনে ক্লিক করুন।</p>
+        <p>• প্রমক নম্বর: <strong id="agentNumber">01305366289</strong> <button class="copy-btn" onclick="copyNumber()">Copy</button></p>
+        <p>• লেনদেন শেষ করে ট্রানজেকশন আইডি (TrxID) নিচে দিন।</p>
+        
+        <input type="text" class="trx-input" id="trxInput" placeholder="ট্রানজেকশন আইডি দিন (TrxID)">
+    </div>
+
+    <button class="pay-btn" onclick="verifyPayment()">VERIFY & CONFIRM</button>
+    <a href="index.html" class="back-link">← ড্যাশবোর্ডে ফিরে যান</a>
+</div>
+
+<script>
+    let selectedGateway = "";
+
+    function selectMethod(name, color, cardId) {
+        selectedGateway = name;
+        
+        document.getElementById('bkashCard').classList.remove('active');
+        document.getElementById('nagadCard').classList.remove('active');
+        document.getElementById(cardId).classList.add('active');
+
+        let box = document.getElementById('instructionBox');
+        box.style.backgroundColor = color;
+        box.classList.add('active');
+        
+        document.getElementById('methodTitle').innerText = name + " পেমেন্ট পদ্ধতি";
+        document.getElementById('methodNameText').innerText = name;
+    }
+
+    function copyNumber() {
+        let num = "01305366289";
+        navigator.clipboard.writeText(num);
+        alert("নম্বরটি কপি করা হয়েছে: " + num);
+    }
+
+    function verifyPayment() {
+        let amount = parseInt(document.getElementById('rechargeAmount').value);
+        let trx = document.getElementById('trxInput').value.trim();
+
+        if (!selectedGateway) {
+            alert("দয়া করে বিকাশ অথবা নগদ সিলেক্ট করুন!");
+            return;
+        }
+        if (!amount || amount <= 0) {
+            alert("সঠিক টাকার পরিমাণ দিন!");
+            return;
+        }
+        if (!trx) {
+            alert("দয়া করে ট্রানজেকশন আইডি (TrxID) দিন!");
+            return;
+        }
+
+        let currentBal = parseInt(localStorage.getItem('userBalance') || '1550');
+        currentBal += amount;
+        localStorage.setItem('userBalance', currentBal);
+        localStorage.setItem('hasRecharged', 'true');
+
+        let history = JSON.parse(localStorage.getItem('userHistory') || '[]');
+        history.unshift({
+            type: 'Recharge (' + selectedGateway + ')',
+            details: `TrxID: ${trx}`,
+            amount: `+৳${amount}`,
+            date: new Date().toLocaleString()
+        });
+        localStorage.setItem('userHistory', JSON.stringify(history));
+
+        alert("পেমেন্ট সফলভাবে যাচাই হয়েছে! আপনার অ্যাকাউন্টে ৳" + amount + " যোগ করা হয়েছে।");
+        window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>
